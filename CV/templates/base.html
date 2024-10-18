@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}صفحه اصلی{% endblock %}</title>
+    {% load static %}
+    <!-- لینک‌های Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        .resume-container {
+            width: 210mm; /* عرض A4 */
+            height: 297mm; /* ارتفاع A4 */
+            margin: 0 auto;
+            padding: 20mm;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        .left-column {
+            width: 70%; /* ستون چپ */
+            float: left;
+            padding-right: 20px;
+        }
+        .right-column {
+            width: 30%; /* ستون راست */
+            float: right;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">وبسایت من</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                {% if request.user.is_authenticated %}
+    <li class="nav-item"><a class="nav-link" href="{% url 'profile' request.user.id %}">پروفایل من</a></li>
+{% else %}
+    <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">ورود به سیستم</a></li>
+{% endif %}
+                <li class="nav-item"><a class="nav-link" href="{% url 'signup' %}">ثبت‌نام</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">ورود</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">خروج</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<div class="container mt-4 resume-container">
+    <div class="left-column">
+        {% block content %}{% endblock %}
+    </div>
+    <div class="right-column">
+        <h2>مشخصات کاربر</h2>
+        {% if first_name %}
+            <img src="{{ person.image.url }}" alt="Profile Image" class="img-fluid rounded-circle" style="width: 150px; height: 150px;">
+            <p><strong>نام:</strong> {{ first_name }} {{ last_name }}</p>
+            <p><strong>ایمیل:</strong> {{ email }}</p>
+            <p><strong>تلفن:</strong> {{ person.phone }}</p>
+            <p><strong>آدرس:</strong> {{ person.address }}</p>
+        {% else %}
+            <p>لطفاً وارد حساب کاربری خود شوید.</p>
+        {% endif %}
+    </div>
+    <div style="clear: both;"></div>
+</div>
+
+<!-- اسکریپت‌های Bootstrap -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

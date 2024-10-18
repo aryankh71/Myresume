@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}پروفایل کاربر{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">پروفایل {{ first_name }} {{ last_name }}</h1>
+
+{% if resume %}
+    <h2>خلاصه حرفه‌ای</h2>
+    <p><strong>مهارت‌ها:</strong> {{ resume.skills }}</p>
+    <p><strong>تجربیات:</strong> {{ resume.experience }}</p>
+    <p><strong>زبان‌ها:</strong> {{ resume.languages }}</p>
+    <p><strong>تحصیلات:</strong> {{ resume.education }}</p>
+{% endif %}
+
+{% if job_history %}
+    <h2>تجربیات کاری</h2>
+    <ul class="list-group">
+        {% for job in job_history %}
+            <li class="list-group-item">
+                <strong>{{ job.company_name }}</strong> - {{ job.job_title }} <br>
+                <span class="text-muted">{{ job.start_date }} تا {% if job.is_current_job %}اکنون{% else %}{{ job.end_date }}{% endif %}</span>
+                <p>{{ job.responsibilities }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+{% endblock %}

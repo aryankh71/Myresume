@@ -1,0 +1,13 @@
+{% if person %}
+    <p><strong>نویسنده:</strong> {{ person.author.username }}</p>
+{% else %}
+    <p>نویسنده اطلاعاتی وجود ندارد.</p>
+{% endif %}
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ person_form.as_p }}
+    {{ summary_form.as_p }}
+    {{ job_form.as_p }}
+    <button type="submit">ذخیره</button>
+</form>
